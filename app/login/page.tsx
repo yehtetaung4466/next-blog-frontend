@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Warning from "../components/warning";
 import Error from "../components/error";
+import Cookie from 'js-cookie';
 export default function Login(){
     const [email,setEmail]=useState<string>("");
     const [password,setPassword]=useState<string>("");
@@ -17,7 +18,7 @@ export default function Login(){
             headers:{
                 "Content-Type":"application/json"
             },
-            method:"post",
+            method:"POST",
             body: JSON.stringify({
                 email,password,
             }),
@@ -25,7 +26,7 @@ export default function Login(){
          const body = await response.json();         
          switch (true) {
             case response.ok:
-              localStorage.setItem('access_token',body.access_token);  
+              Cookie.set('access_token',body.access_token,{expires: 1})  
               route.push('/');
               break;
             case response.status>=400:

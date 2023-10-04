@@ -1,6 +1,11 @@
+import Nav from "@/app/components/nav";
+import Post from "@/app/components/post";
 
-export default function Home() {
-  return (
-    <div className=" bg-red-600">home</div>
-  )
+export default function HomePage() {
+    return(
+    <>
+    <Nav />
+    <Post />
+    </>
+    )
 }
