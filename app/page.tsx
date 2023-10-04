@@ -3,9 +3,6 @@ import Post from "@/app/components/post";
 
 export default function HomePage() {
     return(
-    <>
-    <Nav />
-    <Post />
-    </>
+    <div>hi</div>
     )
 }
