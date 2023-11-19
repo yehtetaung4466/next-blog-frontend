@@ -1,8 +1,3 @@
-import Nav from "@/app/components/nav";
-import Post from "@/app/components/post";
-
 export default function HomePage() {
-    return(
-    <div>hi</div>
-    )
+  return <div className=" bg-red-400">hi</div>;
 }

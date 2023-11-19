@@ -1,13 +1,21 @@
-export interface JWT{
-  id: number,
-  name: string,
-  role: 0 | 1 | 2,
-  profile: string | File,
-  suspended: boolean,
-  email: string,
-  createdAt: Date,
-  iat: number,
-  exp: number
+export interface JWT {
+  id: number;
+  name: string;
+  role: 0 | 1 | 2;
+  profile: string | null;
+  suspended: boolean;
+  createdAt: string;
+  iat: number;
+  exp: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  role: 0 | 1 | 2;
+  profile: string;
+  suspended: boolean;
+  createdAt: string;
 }
 
 export interface Blog {
@@ -26,13 +34,21 @@ export interface Blog {
 
 interface Comment {
   id: number;
-  content: string;
+  context: string;
   createdAt: string;
   author_id: number;
 }
 
 interface Reaction {
   id: number;
-  type: string;
-  user_id: number;
+  reaction: "like" | "dislike" | "neutral";
+  author_id: number;
+  blog_id: number;
+}
+
+export interface Activity_t {
+  type: 'like' | 'dislike' | 'comment';
+  authorNameOfActivityMakedBlog: string;
+  authorIdOfActivityMakedBlog: number;
+  createdAt:Date;
 }

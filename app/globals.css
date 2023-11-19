@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .reaction_switch {
-    @apply cursor-pointer ml-2 fill-blue-500;
+  @apply cursor-pointer ml-2;
 }
 
 .dropdown_item {
-    @apply text-start cursor-pointer hover:bg-base-300 py-1 pl-1 rounded-md active:bg-neutral active:text-white ease-linear duration-100;
+  @apply text-start cursor-pointer hover:bg-base-300 py-1 pl-1 rounded-md active:bg-neutral active:text-white ease-linear duration-100;
 }

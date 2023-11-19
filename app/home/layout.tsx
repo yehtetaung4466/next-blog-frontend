@@ -1,13 +1,14 @@
-import Nav from "../components/nav";
-import Paginate from "../components/paginate";
+import Nav from '../components/nav';
 
-export default function HomeLayout({children}:{children:React.ReactNode}) {
-    return(
-        <div>
-            <Nav/>
-            {children}
-            <Paginate />
-        </div>
-    )
-
+export default function HomeLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <Nav />
+      {children}
+    </div>
+  );
 }
