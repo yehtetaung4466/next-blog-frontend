@@ -7,7 +7,7 @@ async function getBlogs(p: number) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/blogs?paginate=${p}`,
     {
-      cache: "no-store",
+      cache: 'no-store',
     },
   );
   if (res.ok) {
@@ -26,21 +26,21 @@ export default async function HomePage({
   searchParams: { page: string; isLogin: string };
 }) {
   const blogs = await getBlogs(Number(searchParams.page));
-  if(blogs===undefined) throw new Error("Can't get posts");
+  if (blogs === undefined) throw new Error("Can't get posts");
   if (blogs !== 0 && blogs) {
     return blogs.map((b) => {
-      return(
+      return (
         <>
-        <Post blog={b} key={b.id} />
-        <Paginate noPost={false} />
+          <Post blog={b} key={b.id} />
+          <Paginate noPost={false} />
         </>
       );
     });
   }
-  return(
+  return (
     <>
-    <NoPost />
-    <Paginate noPost={true} />
+      <NoPost />
+      <Paginate noPost={true} />
     </>
   );
 }

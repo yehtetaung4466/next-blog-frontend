@@ -41,7 +41,7 @@ interface Comment {
 
 interface Reaction {
   id: number;
-  reaction: "like" | "dislike" | "neutral";
+  reaction: 'like' | 'dislike' | 'neutral';
   author_id: number;
   blog_id: number;
 }
@@ -50,5 +50,5 @@ export interface Activity_t {
   type: 'like' | 'dislike' | 'comment';
   authorNameOfActivityMakedBlog: string;
   authorIdOfActivityMakedBlog: number;
-  createdAt:Date;
+  createdAt: Date;
 }

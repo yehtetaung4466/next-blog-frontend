@@ -1,4 +1,8 @@
-export default function commentIcon({commentCount}:{commentCount:number}) {
+export default function commentIcon({
+  commentCount,
+}: {
+  commentCount: number;
+}) {
   return (
     <div className="flex">
       <div className=" fill-blue-500 ml-1">

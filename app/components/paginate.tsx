@@ -1,6 +1,6 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
-export default function Paginate({noPost}:{noPost:Boolean}) {
+export default function Paginate({ noPost }: { noPost: Boolean }) {
   const route = useRouter();
   const page = useSearchParams().get('page');
   const router = () => {
@@ -22,9 +22,11 @@ export default function Paginate({noPost}:{noPost:Boolean}) {
         «
       </button>
       <div className="join-item btn">Page {page}</div>
-      {noPost ? null:<button onClick={() => router().next()} className="join-item btn">
-        »
-      </button>}
+      {noPost ? null : (
+        <button onClick={() => router().next()} className="join-item btn">
+          »
+        </button>
+      )}
     </div>
   );
 }

@@ -1,36 +1,38 @@
-"use client"
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import Cookies from "js-cookie";
+'use client';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Cookies from 'js-cookie';
 import Default from '@/public/default.jpeg';
-import Image from "next/image";
-import { getUserFromJwt } from "../helpers/getUserFromJwt";
-import { useEffect, useState } from "react";
-import { JWT } from "../utils/types";
-
+import Image from 'next/image';
+import { getUserFromJwt } from '../helpers/getUserFromJwt';
+import { useEffect, useState } from 'react';
+import { JWT } from '../utils/types';
 
 export default function IfLogin() {
-  const [user,setUser] = useState<JWT>();  
+  const [user, setUser] = useState<JWT>();
   const route = useRouter();
   const params = useSearchParams();
   const page = params.get('page');
 
-  useEffect(()=>{
+  useEffect(() => {
     setUser(getUserFromJwt());
-  },[]);
-    const handleLogout = () => {
-        Cookies.remove("access_token")
-        route.push(`/home?page=${page ? page : 1}`);
-        route.refresh();
-        setTimeout(() => {
-        setUser(undefined);
-        }, 800);
-    };
-      
-    if(user) {
-       return(
-        <div className="flex-none mr-4">
-        <Link href={`/create`} className=" btn-sm btn btn-primary btn-outline mr-2 md:mr-3">
+  }, []);
+  const handleLogout = () => {
+    Cookies.remove('access_token');
+    route.push(`/home?page=${page ? page : 1}`);
+    route.refresh();
+    setTimeout(() => {
+      setUser(undefined);
+    }, 800);
+  };
+
+  if (user) {
+    return (
+      <div className="flex-none mr-4">
+        <Link
+          href={`/create`}
+          className=" btn-sm btn btn-primary btn-outline mr-2 md:mr-3"
+        >
           create
         </Link>
         <div className="dropdown dropdown-end">
@@ -45,12 +47,12 @@ export default function IfLogin() {
           >
             <li>
               <span
-               className="justify-between"
-               onClick={()=>{
-                route.push(`/profile/${user.id}`);
-                route.refresh();
-               }}
-               >
+                className="justify-between"
+                onClick={() => {
+                  route.push(`/profile/${user.id}`);
+                  route.refresh();
+                }}
+              >
                 Profile
               </span>
             </li>
@@ -63,11 +65,11 @@ export default function IfLogin() {
           </ul>
         </div>
       </div>
-       )
-    }
+    );
+  }
 
-    return(
-        <div className=" flex items-center mr-2 sm:mr-3 md:mr-4">
+  return (
+    <div className=" flex items-center mr-2 sm:mr-3 md:mr-4">
       <Link
         href={`/signup`}
         className=" btn btn-sm btn-outline mr-2 btn-primary"
@@ -78,5 +80,5 @@ export default function IfLogin() {
         login
       </Link>
     </div>
-    )
+  );
 }

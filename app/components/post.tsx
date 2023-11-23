@@ -19,27 +19,31 @@ const getAuthorName = async (id: number) => {
   return "can't get username";
 };
 const getProfileById = async (id: number) => {
-  const url = `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/profiles/${id}?t=${Date.now()}`;
-  const res = await fetch(url, { cache: "no-store" });
+  const url = `${
+    process.env.NEXT_PUBLIC_NEST_SERVER
+  }/api/files/profiles/${id}?t=${Date.now()}`;
+  const res = await fetch(url, { cache: 'no-store' });
   if (res.ok) {
     return url;
   }
 };
-const getUserFromJwt = ()=>{
+const getUserFromJwt = () => {
   // const cookie = Cookies.get("access_token");
-  const cookie = cookies().get("access_token")?.value;
-  if(cookie){
+  const cookie = cookies().get('access_token')?.value;
+  if (cookie) {
     const user = decode(cookie) as JWT;
     return user;
   }
-}
+};
 export default async function Post({ blog }: { blog: Blog }) {
-  const datetime = DateTime.fromISO(blog.createdAt.slice(0,-1) +"+06:30").setZone("UTC+06:30");
-  const timeDiffString = datetime.toRelative({base: DateTime.now()});
+  const datetime = DateTime.fromISO(
+    blog.createdAt.slice(0, -1) + '+06:30',
+  ).setZone('UTC+06:30');
+  const timeDiffString = datetime.toRelative({ base: DateTime.now() });
   const hidden = !blog.image;
   const username = await getAuthorName(blog.author_id);
   const authorProfile = await getProfileById(blog.author_id);
-  
+
   return (
     <div className="  h-52 w-11/12 max-w-lg mx-auto border bg-base-100 rounded-md shadow-md my-4">
       <div className=" h-full w-full">
@@ -47,7 +51,10 @@ export default async function Post({ blog }: { blog: Blog }) {
           {!hidden && (
             <div className={` ${hidden ? 'hidden' : null} h-full w-1/4`}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/blogimages/${blog.id}` || Default}
+                src={
+                  `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/blogimages/${blog.id}` ||
+                  Default
+                }
                 className=" w-full h-full"
                 width={300}
                 height={300}
@@ -90,7 +97,11 @@ export default async function Post({ blog }: { blog: Blog }) {
           {blog.content}
         </div>
         <div className=" h-1/6 flex z-50">
-          <Reaction blog={blog} key={blog.id} currentUser={getUserFromJwt()?.id} />
+          <Reaction
+            blog={blog}
+            key={blog.id}
+            currentUser={getUserFromJwt()?.id}
+          />
           <CommentIcon commentCount={blog.comment_count} key={blog.id} />
           <Link
             href={`/blog/${blog.id}`}

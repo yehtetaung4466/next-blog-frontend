@@ -5,78 +5,77 @@ import { User } from '../utils/types';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { getUserFromJwt } from '../helpers/getUserFromJwt';
-const getCommentAuthorById = async(id:number) =>{
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/users/${id}`,
-      {
-        cache: "no-store",
-      },
-    );
-    if (res.ok) {
-      const body = await res.json() as User;
-      return body;
-    }
-    throw new Error("can't get comment author");
-}
-const editComment = async(commentId:number,context:string)=>{
+const getCommentAuthorById = async (id: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/users/${id}`,
+    {
+      cache: 'no-store',
+    },
+  );
+  if (res.ok) {
+    const body = (await res.json()) as User;
+    return body;
+  }
+  throw new Error("can't get comment author");
+};
+const editComment = async (commentId: number, context: string) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/comments/${commentId}`,
     {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        'Authorization':`Bearer ${Cookies.get("access_token")}`,
+        Authorization: `Bearer ${Cookies.get('access_token')}`,
         'Content-Type': 'application/json',
       },
-      body:JSON.stringify({context})
+      body: JSON.stringify({ context }),
     },
   );
   if (!res.ok) {
-    const {msg} = await res.json() as {msg: string};
-    alert(msg||'editing failed')
+    const { msg } = (await res.json()) as { msg: string };
+    alert(msg || 'editing failed');
   }
-  
-}
-const deleteComment = async(commentId:number)=>{
+};
+const deleteComment = async (commentId: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/comments/${commentId}`,
     {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        'Authorization':`Bearer ${Cookies.get("access_token")}`,
+        Authorization: `Bearer ${Cookies.get('access_token')}`,
         'Content-Type': 'application/json',
       },
     },
   );
   if (!res.ok) {
-    const {msg} = await res.json() as {msg: string};
-    alert(msg||'deleting failed')
+    const { msg } = (await res.json()) as { msg: string };
+    alert(msg || 'deleting failed');
   }
-}
+};
 export default function Comment({
   authorId,
   context,
-  id
+  id,
 }: {
-  authorId: number,
-  context: string,
-  id: number,
+  authorId: number;
+  context: string;
+  id: number;
 }) {
   const [comment, setComment] = useState(context);
-  const [author,setAuthor] = useState<User>();
-  const [userId,setUserId] = useState<number>();
+  const [author, setAuthor] = useState<User>();
+  const [userId, setUserId] = useState<number>();
   const route = useRouter();
-  useEffect(()=>{
-  const user = getUserFromJwt();
-    if(user){
+  useEffect(() => {
+    const user = getUserFromJwt();
+    if (user) {
       setUserId(user.id);
     }
-    const fetchCommentAuthor = async()=>{
+    const fetchCommentAuthor = async () => {
       const author = await getCommentAuthorById(authorId);
       setAuthor(author);
-    }
+    };
     fetchCommentAuthor();
-  },[]);
-  
+  }, []);
+
   const HandleModal = () => {
     const myModal = document.getElementById(
       `edit_comment_modal_${id}`,
@@ -103,7 +102,12 @@ export default function Comment({
             {author?.name}
           </Link>
           <span className="dropdown dropdown-bottom dropdown-end relative float-right -top-2 pl-2">
-            <label tabIndex={0} className={` ${userId === authorId ? null:'hidden'} cursor-pointer`}>
+            <label
+              tabIndex={0}
+              className={` ${
+                userId === authorId ? null : 'hidden'
+              } cursor-pointer`}
+            >
               ...
               <dialog id={`edit_comment_modal_${id}`} className="modal">
                 <div className="modal-box">
@@ -117,14 +121,17 @@ export default function Comment({
                   <div className=" modal-action">
                     <button
                       className=" btn btn-sm "
-                      onClick={() => {HandleModal().closeModal();setComment(context);}}
+                      onClick={() => {
+                        HandleModal().closeModal();
+                        setComment(context);
+                      }}
                     >
                       cancle
                     </button>
                     <button
                       className=" btn btn-sm btn-primary"
                       onClick={() => {
-                        editComment(id,comment);
+                        editComment(id, comment);
                         HandleModal().closeModal();
                         route.refresh();
                       }}
@@ -145,12 +152,13 @@ export default function Comment({
               >
                 EDIT
               </li>
-              <li className=" dropdown_item hover:bg-error active:bg-error-content"
-              onClick={() => {
-                deleteComment(id);
-                HandleModal().closeModal();
-                route.refresh();
-              }}
+              <li
+                className=" dropdown_item hover:bg-error active:bg-error-content"
+                onClick={() => {
+                  deleteComment(id);
+                  HandleModal().closeModal();
+                  route.refresh();
+                }}
               >
                 DELETE
               </li>

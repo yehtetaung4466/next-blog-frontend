@@ -6,8 +6,7 @@ import Cookies from 'js-cookie';
 export default function LeaveComment() {
   const [comment, setComment] = useState('');
   const route = useRouter();
-  const {id} = useParams() as {id:string};
-  
+  const { id } = useParams() as { id: string };
 
   const HandleModal = () => {
     const myModal = document.getElementById(
@@ -26,28 +25,27 @@ export default function LeaveComment() {
       },
     };
   };
-  const createComment = async(c:string)=>{
+  const createComment = async (c: string) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/comments`,
       {
-        method: "POST",
-        body: JSON.stringify({blogId:Number(id),context:c}),
+        method: 'POST',
+        body: JSON.stringify({ blogId: Number(id), context: c }),
         headers: {
-          'Authorization':`Bearer ${Cookies.get("access_token")}`,
+          Authorization: `Bearer ${Cookies.get('access_token')}`,
           'Content-Type': 'application/json',
-        }
+        },
       },
     );
     if (res.ok) {
-      setComment("")
+      setComment('');
       HandleModal().closeModal();
       route.refresh();
-    }else{
-      setComment("");
-      alert("commenting failed");
+    } else {
+      setComment('');
+      alert('commenting failed');
     }
-   
-}
+  };
 
   return (
     <div>
@@ -75,7 +73,7 @@ export default function LeaveComment() {
             </button>
             <button
               className=" btn btn-sm btn-primary"
-              onClick={async()=>await createComment(comment)}
+              onClick={async () => await createComment(comment)}
             >
               ok
             </button>
@@ -84,5 +82,4 @@ export default function LeaveComment() {
       </dialog>
     </div>
   );
-
-  }
+}
