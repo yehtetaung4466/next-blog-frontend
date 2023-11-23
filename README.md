@@ -1,6 +1,6 @@
 ## Blog app front-end
 
-This is the next.js 14 front-end part of the blog project.For back-end, check [next-blog-backend](https://github.com/yehtetaung4466/nest-blog-backend) repo
+This is the next.js 14 front-end part of the blog project.For back-end, check [nest-blog-backend](https://github.com/yehtetaung4466/nest-blog-backend) repo
 
 ##### assuming you have set up back-end
 
