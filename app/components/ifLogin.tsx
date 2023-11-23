@@ -30,9 +30,9 @@ export default function IfLogin() {
     if(user) {
        return(
         <div className="flex-none mr-4">
-        <button className=" btn-sm btn btn-primary btn-outline mr-2 md:mr-3">
+        <Link href={`/create`} className=" btn-sm btn btn-primary btn-outline mr-2 md:mr-3">
           create
-        </button>
+        </Link>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">

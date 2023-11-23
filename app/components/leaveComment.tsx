@@ -75,7 +75,7 @@ export default function LeaveComment() {
             </button>
             <button
               className=" btn btn-sm btn-primary"
-              onClick={()=>createComment(comment)}
+              onClick={async()=>await createComment(comment)}
             >
               ok
             </button>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { User } from '../utils/types';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { getUserFromJwt } from '../helpers/getUserFromJwt';
 const getCommentAuthorById = async(id:number) =>{
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/users/${id}`,
@@ -62,8 +63,13 @@ export default function Comment({
 }) {
   const [comment, setComment] = useState(context);
   const [author,setAuthor] = useState<User>();
+  const [userId,setUserId] = useState<number>();
   const route = useRouter();
   useEffect(()=>{
+  const user = getUserFromJwt();
+    if(user){
+      setUserId(user.id);
+    }
     const fetchCommentAuthor = async()=>{
       const author = await getCommentAuthorById(authorId);
       setAuthor(author);
@@ -97,7 +103,7 @@ export default function Comment({
             {author?.name}
           </Link>
           <span className="dropdown dropdown-bottom dropdown-end relative float-right -top-2 pl-2">
-            <label tabIndex={0} className=" cursor-pointer">
+            <label tabIndex={0} className={` ${userId === authorId ? null:'hidden'} cursor-pointer`}>
               ...
               <dialog id={`edit_comment_modal_${id}`} className="modal">
                 <div className="modal-box">

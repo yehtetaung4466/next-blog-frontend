@@ -1,7 +1,6 @@
 import Default from '@/public/default.jpeg';
 import Image from 'next/image';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
 import CommentIcon from './commentIcon';
 import { Blog, JWT, User } from '../utils/types';
 import { DateTime } from 'luxon';
@@ -45,13 +44,13 @@ export default async function Post({ blog }: { blog: Blog }) {
     <div className="  h-52 w-11/12 max-w-lg mx-auto border bg-base-100 rounded-md shadow-md my-4">
       <div className=" h-full w-full">
         <div className=" flex w-full h-2/6 pt-1 pl-1  ">
-          {hidden && (
+          {!hidden && (
             <div className={` ${hidden ? 'hidden' : null} h-full w-1/4`}>
               <Image
-                src={blog.image || Default}
+                src={`${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/blogimages/${blog.id}` || Default}
                 className=" w-full h-full"
-                width={0}
-                height={0}
+                width={300}
+                height={300}
                 alt="Article Image"
               />
             </div>

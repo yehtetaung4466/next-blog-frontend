@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Default from '@/public/default.jpeg';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { DateTime } from 'luxon';
 import { Activity_t, Blog, User } from '../utils/types';
 import Cookies from 'js-cookie';
@@ -44,7 +44,6 @@ const getBlogsByUserId= async(userId:number)=>{
 const getActivityUserId= async(userId:number)=>{
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/users/${userId}/activities`,
-    // {next:{revalidate: 60000}}
     {cache:'no-store'}
   );
   if(res.ok) {
@@ -53,14 +52,24 @@ const getActivityUserId= async(userId:number)=>{
   }
   throw new Error("can't get activitiess");
 }
+const getProfileById= async(userId:number)=>{
+  const url = `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/profiles/${userId}`
+  const res = await fetch(
+    url,
+    {cache:'no-store'}
+  );
+  if(res.ok) {
+    return url;
+  }
+  
+}
 export default function UserProfile({id}:{id:number}) {
   const [errorMsg,setErrorMsg] = useState<string>();
   const [user,setUser] = useState<User|404>();
   const [username, setUsername] = useState<string|undefined>('');
   const [blogs,setBlogs] = useState<Blog[]>()
   const [activities,setActivities] = useState<Activity_t[]>();
-  const [profile,setProfile] = useState(`${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/profiles/${id}`)
-  const route = useRouter();
+  const [profile,setProfile] = useState<string|undefined>();
   const params = useSearchParams();
   const inspect = (params.get('inspect') as 'true' | 'false') === "true";
   const activeTab = params.get('tab') as 'posts' | 'activity';
@@ -78,6 +87,11 @@ export default function UserProfile({id}:{id:number}) {
         setUsername(user.name);
         }
       }
+      const fetchProfile= async()=>{
+      const profile = await getProfileById(id);
+      setProfile(profile);  
+      }
+        fetchProfile();
         fetchUser();
     }catch(err) {
       setErrorMsg("can't get user info")
@@ -183,7 +197,7 @@ export default function UserProfile({id}:{id:number}) {
               <div className=" dropdown dropdown-end">
                 <label
                   tabIndex={0}
-                  className=" cursor-pointer ml-1 relative bottom-1"
+                  className={` ${inspect? 'hidden':null} cursor-pointer ml-1 relative bottom-1`}
                 >
                   ...
                 </label>

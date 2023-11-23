@@ -68,17 +68,17 @@ export default async function BlogPage({params}:{params:{id:string}}) {
         <div className=" w-full h-full max-w-xs sm:ml-2 ml-1 flex">
           <div className={` ${hidden ? 'hidden' : null} h-full w-1/2`}>
             <Image
-              src={ blog.image || Default}
+              src={ `${process.env.NEXT_PUBLIC_NEST_SERVER}/api/files/blogimages/${id}` || Default}
               className=" w-full h-full"
-              width={0}
-              height={0}
+              width={300}
+              height={300}
               alt="Article Image"
             />
           </div>
           <div className=" w-1/2 h-full">
             <div className=" h-1/3 pl-1 font-medium">{blog.title}</div>
             <div className=" flex items-center h-1/3 pl-1 span">
-              <Link href={'/profile/1'} className=" z-50 h-full flex">
+              <Link href={`/profile/${blog.author_id}`} className=" z-50 h-full flex">
                 <span className=" avatar h-4/6 my-auto">
                   <Image
                     src={profile || Default}
