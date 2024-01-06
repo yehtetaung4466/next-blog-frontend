@@ -9,5 +9,5 @@ This is the next.js 14 front-end part of the blog project.For back-end, check [n
 - create .env.local file
  - ##### Set up the env variables
    - NEST_PUBLIC_NEST_SERVER (example - http://localhost:3003)
-   - HOST
- - run `bun dev (npm run dev also should be file)`
+ - run `npm i`
+ - run `npm run dev`
