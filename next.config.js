@@ -7,7 +7,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "*",
+            value: "https://nestblog-backend.onrender.com",
           },
           {
             key: "Access-Control-Allow-Methods",
