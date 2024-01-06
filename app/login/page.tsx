@@ -36,7 +36,7 @@ export default function Login() {
       case response.status >= 400:
         setWarningMsg(body.msg);
         break;
-      case response.status >= 500:
+      case response.status === 500:
         setErrorMsg(body.msg || 'unknown error occurs');
     }
   };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useReducer } from 'react';
-import { Activity, Blog } from '../utils/types';
+import { Activity_t, Blog } from '../utils/types';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 type Reaction = 'neutral' | 'like' | 'dislike';
