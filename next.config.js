@@ -22,7 +22,6 @@ const nextConfig = {
       },
     ];
   },
-  crossOrigin: true,
   images: {
     remotePatterns: [
       {hostname: '*'}
